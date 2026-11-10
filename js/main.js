@@ -21,9 +21,12 @@
     const setOpen = o => { hd.classList.toggle("is-open", o); burger.setAttribute("aria-expanded", o); burger.setAttribute("aria-label", o ? "Chiudi il menu" : "Apri il menu"); };
     burger.addEventListener("click", () => setOpen(!hd.classList.contains("is-open")));
     $("nav").addEventListener("click", e => { if (e.target.closest("a")) setOpen(false); });
-    addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
+    addEventListener("keydown", e => { if (e.key === "Escape") { setOpen(false); burger.focus(); } });
+    document.addEventListener("pointerdown", e => { if (hd.classList.contains("is-open") && !hd.contains(e.target)) setOpen(false); });
+    matchMedia("(min-width: 941px)").addEventListener?.("change", e => { if (e.matches) setOpen(false); });
     const els = document.querySelectorAll(".reveal");
-    if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { threshold: .12 }); els.forEach(el => io.observe(el)); }
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) els.forEach(el => el.classList.add("is-in"));
+    else if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { threshold: .12 }); els.forEach(el => io.observe(el)); }
     else els.forEach(el => el.classList.add("is-in"));
   } catch (err) { console.error("Errore inizializzazione sito:", err); document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-in")); }
 })();

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Demo non indicizzabile. Alla pubblicazione autorizzata: sostituire con "Allow: /" e aggiungere Sitemap.

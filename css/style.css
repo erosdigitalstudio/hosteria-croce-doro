@@ -109,3 +109,52 @@ blockquote{line-height:1.15}#esperienza{text-align:center}#esperienza .eyebrow{j
 @media(max-width:940px){.nav{gap:1.5rem}.hero__in{padding-block:12rem 7rem}.header .nav{max-height:calc(100dvh - var(--hh));overflow:auto}.demo-ribbon{bottom:10px;right:10px;font-size:8px;padding:8px 10px}}
 @media(max-width:600px){:root{--hh:74px;--h1:clamp(3.9rem,16vw,6rem)}.hero__in{padding-block:10rem 7rem}.hero__media::before{width:110vw;right:-60vw;top:20%}.hero__media::after{right:-4%;top:36%;font-size:15rem}.hero .eyebrow{font-size:.57rem;letter-spacing:.17em}.hero__placeholder{bottom:4%;right:5%;font-size:.45rem}.section{padding-block:5rem}.ph--tall{aspect-ratio:4/4.8}.gallery{gap:.5rem}.demo-ribbon{max-width:200px;line-height:1.5;text-align:center}.contacts div{flex-direction:column;gap:0}}
 @media(prefers-reduced-motion:reduce){.hero__media::before,.hero__media::after{animation:none}}
+
+
+/* Eros Digital Studio — motion and interaction refinement v1.2 */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__in > .eyebrow {animation: hero-enter .85s .08s both cubic-bezier(.22,1,.36,1)}
+  .hero__ornament {animation: hero-enter .85s .2s both cubic-bezier(.22,1,.36,1)}
+  .hero h1 {animation: hero-enter 1.05s .28s both cubic-bezier(.22,1,.36,1)}
+  .hero .lead {animation: hero-enter .9s .48s both cubic-bezier(.22,1,.36,1)}
+  .hero .actions {animation: hero-enter .9s .62s both cubic-bezier(.22,1,.36,1)}
+  @keyframes hero-enter {from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  .hero__media::before {animation: ring-breathe 12s ease-in-out infinite alternate}
+  @keyframes ring-breathe {from{transform:scale(.97);opacity:.65}to{transform:scale(1.04);opacity:1}}
+}
+.hero__media{isolation:isolate}
+.hero__media::before,.hero__media::after{pointer-events:none}
+.hero__in{isolation:isolate}
+.hero h1 em{color:var(--oro);text-wrap:balance}
+.hero .lead{max-width:32ch}
+.btn{position:relative;overflow:hidden;transform:translateZ(0);transition:background-color .28s ease,color .28s ease,border-color .28s ease,transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s ease}
+.btn:not([aria-disabled="true"]):hover{transform:translateY(-3px);box-shadow:0 12px 28px #00000024}
+.btn:not([aria-disabled="true"]):active{transform:translateY(-1px)}
+.nav a:not(.btn)::after{width:100%;transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.nav a:not(.btn):hover::after,.nav a:not(.btn):focus-visible::after{transform:scaleX(1)}
+.link{transition:color .25s ease,border-color .25s ease,letter-spacing .25s ease}
+.link:hover{letter-spacing:.13em;color:#987743}
+.ph{transition:border-color .5s ease}
+.ph:hover{border-color:var(--oro)}
+.gallery__i{transition:border-color .35s ease}
+.gallery__i:hover{border-color:var(--oro)}
+.gallery__i img{transition:transform .75s cubic-bezier(.22,1,.36,1)}
+button.gallery__i:hover img{transform:scale(1.065)}
+.reveal{transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+.reveal.is-in{will-change:auto}
+@media(max-width:940px){
+  .nav{box-shadow:0 22px 38px #00000024}
+  .nav a:not(.btn){min-height:40px;display:flex;align-items:center}
+  .burger{color:var(--avorio)}
+}
+@media(max-width:600px){
+  .hero h1{overflow-wrap:normal;font-size:clamp(3.15rem,14vw,5.2rem)}
+  .hero .actions .btn{max-width:100%;text-align:center}
+  .hero__in{padding-bottom:8rem}
+  .demo-ribbon{max-width:180px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero__in > *, .hero__media::before{animation:none!important}
+  .reveal{opacity:1!important;transform:none!important;will-change:auto}
+  .btn:hover,.btn:active{transform:none!important}
+}

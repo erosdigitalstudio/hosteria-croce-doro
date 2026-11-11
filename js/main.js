@@ -15,6 +15,55 @@
     $("footSocial").innerHTML = S.facebook ? `<a href="${esc(S.facebook)}" target="_blank" rel="noopener">Facebook</a>` : '<span class="tbc">Social: da confermare</span>';
     const cats = Object.entries(S.menu), any = cats.some(([, v]) => v.length);
     $("menuRoot").innerHTML = any ? cats.map(([c, items]) => `<section><h3>${esc(c)}</h3><ul>${items.length ? items.map(i => `<li><span><strong>${esc(i.name)}</strong>${i.desc ? "<br>" + esc(i.desc) : ""}</span><span>${i.price ? esc(i.price) : ""}</span></li>`).join("") : '<li class="empty">In arrivo</li>'}</ul></section>`).join("") : '<div class="demo">Stato dimostrativo: il menù ufficiale non è ancora disponibile. Nessun piatto o prezzo è stato inserito.</div>';
+    const catRoot = $("menuCategories");
+    const catNames = Object.keys(S.menu);
+    if (catRoot && catNames.length) {
+      catRoot.innerHTML = catNames.map((name, i) => `<button type="button" class="menu-category${i === 0 ? " is-active" : ""}" data-category="${esc(name)}" aria-pressed="${i === 0}">${esc(name)}</button>`).join("");
+      const categoryButtons = [...catRoot.querySelectorAll("button")];
+      const menuSections = [...$("menuRoot").querySelectorAll(":scope > section")];
+      const activateCategory = index => {
+        categoryButtons.forEach((b, i) => { b.classList.toggle("is-active", i === index); b.setAttribute("aria-pressed", String(i === index)); });
+        menuSections.forEach((s, i) => { s.hidden = i !== index; });
+      };
+      if (menuSections.length) {
+        activateCategory(0);
+        categoryButtons.forEach((b, i) => b.addEventListener("click", () => activateCategory(i)));
+      } else catRoot.hidden = true;
+    }
+    const mobileTabs = [...document.querySelectorAll("[data-mobile-tab]")];
+    const mobileScreens = {
+      home: [document.querySelector(".hero")],
+      menu: [document.getElementById("menu")],
+      gallery: [document.getElementById("galleria")],
+      contacts: [document.getElementById("contatti")],
+      story: [...document.querySelectorAll(".mobile-story")]
+    };
+    const mobileQuery = matchMedia("(max-width: 760px)");
+    const screenFromHash = () => {
+      const id = location.hash.slice(1);
+      if (id === "menu") return "menu";
+      if (id === "galleria") return "gallery";
+      if (id === "contatti") return "contacts";
+      if (["ristorante", "cucina", "esperienza"].includes(id)) return "story";
+      return "home";
+    };
+    const updateMobileScreen = () => {
+      const active = screenFromHash();
+      document.body.dataset.mobileScreen = active;
+      mobileTabs.forEach(a => {
+        const selected = a.dataset.mobileTab === active;
+        a.classList.toggle("is-active", selected);
+        if (selected) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
+      if (mobileQuery.matches) {
+        document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-in"));
+        requestAnimationFrame(() => scrollTo({ top: 0, behavior: "instant" }));
+      }
+    };
+    addEventListener("hashchange", updateMobileScreen);
+    mobileQuery.addEventListener?.("change", updateMobileScreen);
+    updateMobileScreen();
     if (S.menuPdf) $("menuPdf").innerHTML = `<p style="margin-top:2rem">${btn("Scarica il menù (PDF)", S.menuPdf)}</p>`;
     const hd = $("header"), burger = $("burger");
     const onScroll = () => hd.classList.toggle("is-scrolled", scrollY > 40); onScroll(); addEventListener("scroll", onScroll, { passive: true });
